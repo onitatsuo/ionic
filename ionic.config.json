@@ -1,6 +1,8 @@
 {
   "name": "News",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "51bf1f6d"
 }

@@ -1,0 +1,382 @@
+#+TITLE: notes
+
+* Ionic
+
+** Framework
+core components can work standalone with just a script tag in a web page
+
+*cordova issues* ionic cordova prepare
+
+** Core concepts
+
+** Project structure
+*** src/app/
+
+is where most of the code happens
+
+**** app.components.ts
+
+root component
+**** app.component.html
+*ion-router-outlet* views and pagaes will be injected here
+
+**** 'tab1' page.ts
+sets up some information for the component
+
+
+**** app-routing.module.ts
+
+sets up all the routes for the application
+urlpath we link to a particular component
+path '' = load home
+https://www.joshmorony.com/using-angular-routing-with-ionic-4/
+
+**** scss
+pages for adding styles
+
+**** module.ts
+adds any dependences that the page needs
+
+**** page.spec.ts
+can basically ignore this file for now
+it's a testing file
+learn how to write tests later
+https://beta.ionicframework.com/docs/building/testing
+
+
+*** src/assets
+store images here
+
+*** src/theme
+theme variables for changing the color of the application
+
+*** src/global.scss
+can add styles here like you can in your page files
+*** src/index.html
+probobably won't edit this
+**** <app-root></app-root>
+injects our application into the web page
+
+*** src/package.json
+where all the dependencies for your application are listed
+the run npm install and it will update
+
+** important : transpiling
+things you see in the source folder they aren't the code run to display the
+application. Code taken and transpiled into the build output of the app.
+*www is the build output*
+
+
+
+* ECMAScript 6 & Angular
+https://www.joshmorony.com/intro-to-ecmascript-6-and-angular-2-for-ionic-developers/
+
+*** ECMASCRIPT6 will make JS capable of more easily creating large and complex applications
+
+** Classes
+ holds information, or details, about an object
+ all objects are created with classes
+** Modules
+ Modules allow you to modularise your code into packages that can be imported
+ anywhere you need in your application.
+** Promises
+ Promises provide a much nicer format for grabbing asynchronous data (e.g. data
+ you need to wait for when you fetch something from a server or a device).
+ /I still have no clue how these work/
+
+** Block Scoping
+ Allows us to use the *let* keyword to define a variable only within a single
+ block of code:
+
+       example:
+       #+BEGIN_SRC
+        for (let i = 0; i < a.length; i++) {=
+          let x = a[i]
+         //etc.
+         }
+        #+END_SRC
+ The new *const* keywordd can also be used for single assignments, and if you
+      were to try to override that *const* value it would throw an error.
+****** arrow functions, iterators, generators <-- lookup
+** TypeScript
+ - /a typed superset of JS that compiles to plain JS/ Used in Angular
+   simply: it adds _typing, classes, and interfaces_ to JS
+
+ - *key feature*
+ allows us to use _types_
+
+ - Provies the ability to use static typing in JS
+  (which means it is evaluated at compile time,
+  opposed to dynamic typing which is evaluated at run time)
+
+   #+BEGIN_src
+   function add(x : number, y : number) : number {
+        return x + y;
+    }
+    add('a', 'b'); // compiler error
+    #+END_SRC
+
+    So in the example above the code won’t compile because
+    we’re trying to supply characters to a function that expects only numbers.
+
+
+* Angular Concepts & Syntax
+https://www.joshmorony.com/ionic-2-first-look-series-new-angular-2-concepts-syntax/
+ 
+** Transpiling
+ /Convereting one language to another/
+  - When we run ionic serve, our code inside of [the app folder] is
+    transpiled into the correct Javascript version that the browser
+    understands (currently, ES5). That means we can work at a higher
+    level using TypeScript and ES6+, but compile down to the older form
+    of Javascript the browser needs.
+
+** Web Components
+https://css-tricks.com/modular-future-web-components/
+~In a nutshell, they allow us to bundle markup and styles into custom HTML
+elements.~
+https://www.joshmorony.com/shadow-dom-usage-in-ionic-web-components/
+https://www.joshmorony.com/styling-a-shadow-dom-in-ionic-4/
+
+Don't really need to know much about the internals
+
+** Classes
+https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects *soon to be
+old way of implimenting objects in JS*
+
+- a class represents an object. Each class has a constructor which is called
+  when the class is created (initialization code/data class will hold)
+  and _methods_ that can be called (from within the class itself and outside the
+  class).
+
+  =example= object: Page , values: title, author, data (initialized in
+  constructor). Can add methods to the class like /getAuthor/ or /setAuthor/
+** Angular syntax
+https://angular.io/guide/cheatsheet
+
+ - useful to know about the APIs that each and every DOM element
+   (that is, a single node in your HTML like <input>) have
+
+  - Grab a single node by using =getElementById('myInput)=
+   _Node_ has *attributes, properties, methods, and events*.
+
+****** attribute
+
+- some data you supply to the element
+  =<input id = "myInput" value = "Hey there">=
+  this attribute is to set an initial *property* on the element
+
+- Attributes can only ever be *strings*
+
+****** property
+ - is like an attribute, except that we can access it as an object
+   and we can modify it after it has been created
+
+   #+BEGIN_src
+    var myInput = document.getElementById('myInput'); // this is a property
+    console.log(myInput.value); // Hey there
+    myInput.value = "What's up?";
+    console.log(myInput.value); // What's up?
+    myInput.value = new Object(); // We can also store objects instead of strings on it
+    #+END_SRC
+
+****** method
+ - is a function that we call on the element
+   =myInput.setValue('Hello');=
+
+   - an element can also fire *events* like /focus, blur, click/ etc.
+     or custom events
+
+
+*** Binding a Property to a Value
+
+ ~<input [value]="firstName">~
+
+ @Sets the elements value property to the expression *firstName*
+
+ - _note:_ /firstName/ is an *expression*, not a string
+   the value of /firstName/ variable (defined in your class) will be used here
+   not the literal string 'firstName'
+
+*** Binding a Function to an Event
+
+ ~<ion-button (click)="someFunction($event)">~
+
+ @Calls *someFunction* and pass in the event whenever the button is clicked.
+
+ - You can replace click with any native or custom event you like
+
+*** Rendering Expressions with Interpolations
+
+  ~<p>Hi, {{name}}</p>~
+
+  @Evaluates the expression and renders the result in the template_
+
+  - in this case it just displays the /name/ variable here but you can alose
+    add more expressions like addition, etc.
+
+*** Two Way Data Binding
+
+  - If we updated a /value/ in our /class/ the change would be reflected in the
+    /template/. If we changed the /value/ in the /template/ it would be reflected in
+    the /class/.
+
+    ~<input [value]="name" (input)="name = $event.target.value">~
+
+    @Sets the value to the expression *name* and when we detect the *input*
+            event we update *name* to be the new value that was entered.
+
+  - Can use *ngModel* in angular to do same thing (shortcut)
+    
+    ~<input [(ngModel)]="name">~
+
+*** Creating a Template Variable to Access an Element
+
+    ~<p #myParagraph></p>~
+
+    @Creates a local variable that we can use to access the element
+
+    - Ex.. if wanted to add some content into this paragraph
+
+    ~<ion-button (click)="myParagraph.innerHTML = 'Once upon a time...'">~
+
+    _note:_ this is an example that you can acces the properties of the
+    paragraph of the paragraph tag using hte template variable. Don't modify the
+    content of elements using *innerHTML* in this way.
+
+*** Structural Directives
+
+    #+BEGIN_src
+     <section *ngIf="showSection">
+
+     <li *ngFor="let item of items">
+    #+END_SRC
+
+    - We can use structural directives to modify our templates. The *ngIF
+      directive will remove a DOM element if the condition it is attached to is
+      not met. This directive can loop over an array, and repeat a DOM element
+      for each element in that array.
+
+    !!! look up this
+
+*** Decorators
+https://www.joshmorony.com/pages/bawi/decorators-lesson-preview.pdf
+
+    #+BEGIN_src
+   @Component({
+     selector: 'app-home',
+     templateUrl: 'home.page.html',
+     styleUrls: ['home.page.scss'],
+    })
+    #+END_SRC
+
+ - Decorators like *@Component*, *@Directive* and so on allow you to attach
+   information to your components. The example above would sit on a top of a
+   class to indicate that it is a "component" and also additional information
+   like the selector that should be used for the tag name, the path to the
+   template that is being used with this class, and the associated styles as
+   well.
+
+   Role in an ionic application is to provide /metadata/ about the class you're
+   defining and they always set directly above your class definition.
+
+  - @Component 
+
+  - @Directive allows you to attach some behavior to a particular
+    component/element
+
+  - @Pipe allows you to create your own custompipes to filter data that is
+    displayed ot the user 
+
+  - @Injectable allows you to create a service for  a class to use
+   
+*** Import & Export
+
+ #+BEGIN_src
+ import { Component } from '@angular/core';
+ import { NavController } from '@ionic/angular';
+
+ @Component({
+  selector: 'app-cool-component',
+  templateUrl: 'cool-component.component.html',
+  styleUrls: ['cool-component.component.scss'],
+ })
+ export class MyCoolComponent {
+
+      constructor(private navCtrl: NavController){
+
+    }
+
+ }
+ #+END_SRC
+
+ - This component is making use of *Component* and *NavController* so it
+   *imports* them. The *MyCoolComponent* component that is being created here is
+   then *exported*.
+
+ - Able to access *MyCoolComponent* by *importing* it elsewhere
+
+   ~~import { MyCoolComponent } from
+   './components/my-cool-component/my-cool-component';~~
+
+*** Dependency Injection
+
+ #+BEGIN_src
+         import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+export class HomePage {
+
+ constructor(private navCtrl: NavController){
+
+ }
+
+ viewItem(item){
+   this.navCtrl.navigateForward('/items/' + item.id)
+ }
+
+}
+
+ #+END_SRC
+
+
+ we first /import/ the /NavControler/ at the top of the file and then "inject"
+ it through the /constructor/ like this.
+
+ ~constructor(private navCtrl: NavController){}~
+
+ Adding /navCtrl/ as an argument in the constructor and assigning it a "type" of
+ /NavController/ it will set up a refrence to /NavController/ for us on a class
+ member called /navCtrl/. Meaning we can then access the functionality that
+ /NavController/ provides using the /navCtrl/ variable which his now accessible
+ throughout the entire class. This is what we are doing in /viewItem/ method.
+
+
+* Angular
+https://angular.io/guide/architecture
+
+
+
+
+
+
+* OneSignal
+https://ionicframework.com/docs/native/onesignal/
+https://documentation.onesignal.com/docs/ionic-sdk-setup
+https://github.com/OneSignal/OneSignal-Cordova-SDK
+
+* Errors
+
+npm WARN @ionic/pro@2.0.4 requires a peer of cordova-plugin-ionic@^5.0.0 but none is installed. You must install peer d
+ependencies yourself.                                                                                                 
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.9: wanted {"os":"darwin","arch":"an
+y"} (current: {"os":"linux","arch":"x64"})                                                                            
+
+
+ 
